@@ -15,7 +15,23 @@ const app = express();
 app.use(express.static('public'));
 
 app.get('/api/notes', (req, res) => {
-  res.json(data);
+  const searchTerm = req.query.searchTerm;
+  let searchToLowerCase = '';
+
+  if (searchTerm) {
+    searchToLowerCase = searchTerm.toLowerCase();
+  }
+
+  if (searchToLowerCase) {
+    let searchResult = data.filter(item => (item.title).toLowerCase().includes(searchToLowerCase));
+    // let searchResult = data.filter(item => {
+    //   let itemTitleToLowerCase = (item.title).toLowerCase();
+    //   return itemTitleToLowerCase.includes(searchToLowerCase);
+    // });
+    res.json(searchResult);
+  } else {
+    res.json(data);
+  }
 });
 
 app.get('/api/notes/:id', (req, res) => {
