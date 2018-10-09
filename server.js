@@ -27,25 +27,35 @@ app.use(log);
 
 app.use(express.static('public'));
 
-app.get('/api/notes', (req, res) => {
-  const searchTerm = req.query.searchTerm;
-  let searchToLowerCase = '';
+app.get('/api/notes', (req, res, next) => {
+  const { searchTerm } = req.query;
 
-  if (searchTerm) {
-    searchToLowerCase = searchTerm.toLowerCase();
-  }
-
-  if (searchToLowerCase) {
-    let searchResult = data.filter(item => (item.title).toLowerCase().includes(searchToLowerCase));
-    // let searchResult = data.filter(item => {
-    //   let itemTitleToLowerCase = (item.title).toLowerCase();
-    //   return itemTitleToLowerCase.includes(searchToLowerCase);
-    // });
-    res.json(searchResult);
-  } else {
-    res.json(data);
-  }
+  notes.filter(searchTerm, (err, list) => {
+    if (err) {
+      return next(err); // goes to error handler
+    }
+    res.json(list); // responds with filtered array
+  });
 });
+
+// const searchTerm = req.query.searchTerm;
+// let searchToLowerCase = '';
+
+// if (searchTerm) {
+//   searchToLowerCase = searchTerm.toLowerCase();
+// }
+
+// if (searchToLowerCase) {
+//   let searchResult = data.filter(item => (item.title).toLowerCase().includes(searchToLowerCase));
+//   // let searchResult = data.filter(item => {
+//  //   let itemTitleToLowerCase = (item.title).toLowerCase();
+//  //   return itemTitleToLowerCase.includes(searchToLowerCase);
+//  // });
+//   res.json(searchResult);
+// } else {
+//   res.json(data);
+// }
+// });
 
 app.get('/api/notes/:id', (req, res) => {
   const id = req.params.id;
