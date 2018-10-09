@@ -14,6 +14,14 @@ const app = express();
 
 const { PORT } = require('./config');
 
+const { log } = require('./middleware/logger');
+
+app.use(log);
+
+// const morgan = require('morgan');
+
+// app.use(morgan('common'));
+
 app.use(express.static('public'));
 
 app.get('/api/notes', (req, res) => {
