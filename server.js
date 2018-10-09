@@ -57,10 +57,19 @@ app.get('/api/notes', (req, res, next) => {
 // }
 // });
 
-app.get('/api/notes/:id', (req, res) => {
+app.get('/api/notes/:id', (req, res, next) => {
   const id = req.params.id;
-  res.json(data.find(item => item.id === Number(id)));
+  notes.find(id, (err, item) => {
+    if (err) {
+      return next(err); // goes to error handler
+    }
+    res.json(item);
+  });
 });
+// app.get('/api/notes/:id', (req, res) => {
+//   const id = req.params.id;
+//   res.json(data.find(item => item.id === Number(id)));
+// });
 
 // test error
 // app.get('/boom', (req, res, next) => {
