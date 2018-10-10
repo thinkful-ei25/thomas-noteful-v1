@@ -1,29 +1,17 @@
 'use strict';
 
-// Load array of notes
-// const data = require('./db/notes');
-
-// console.log('Hello Noteful!');
-
-// INSERT EXPRESS APP CODE HERE...
 const express = require('express');
-
 const data = require('./db/notes');
-
 const simDB = require('./db/simDB');
+const morgan = require('morgan');
 const notes = simDB.initialize(data);
 
 const app = express();
-
 const { PORT } = require('./config');
+// const { logger } = require('./middleware/logger');
+// app.use(logger);
 
-const { logger } = require('./middleware/logger');
-
-app.use(logger);
-
-// const morgan = require('morgan');
-
-// app.use(morgan('common'));
+app.use(morgan('common'));
 
 app.use(express.static('public'));
 
