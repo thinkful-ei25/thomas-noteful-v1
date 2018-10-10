@@ -8,7 +8,7 @@ const data = require('../db/notes');
 const simDB = require('../db/simDB');
 const notes = simDB.initialize(data);
 
-notesRouter.get('/notes/', (req, res, next) => {
+notesRouter.get('/', (req, res, next) => {
   const { searchTerm } = req.query;
 
   notes.filter(searchTerm, (err, list) => {
@@ -19,7 +19,7 @@ notesRouter.get('/notes/', (req, res, next) => {
   });
 });
 
-notesRouter.get('/notes/:id', (req, res, next) => {
+notesRouter.get('/:id', (req, res, next) => {
   const id = req.params.id;
   notes.find(id, (err, item) => {
     if (err) {
@@ -29,7 +29,7 @@ notesRouter.get('/notes/:id', (req, res, next) => {
   });
 });
 
-notesRouter.put('/notes/:id', jsonParser, (req, res, next) => {
+notesRouter.put('/:id', jsonParser, (req, res, next) => {
   const id = req.params.id;
 
   /***** Never trust users - validate input *****/
@@ -54,7 +54,7 @@ notesRouter.put('/notes/:id', jsonParser, (req, res, next) => {
   });
 });
 
-notesRouter.post('/notes', jsonParser, (req, res, next) => {
+notesRouter.post('/', jsonParser, (req, res, next) => {
   const { title, content } = req.body;
 
   const newItem = { title, content };
@@ -77,7 +77,7 @@ notesRouter.post('/notes', jsonParser, (req, res, next) => {
   });
 });
 
-notesRouter.delete('/notes/:id', (req, res, next) => {
+notesRouter.delete('/:id', (req, res, next) => {
   const id = req.params.id;
   notes.delete(id, err => {
     if(err) {
@@ -85,20 +85,6 @@ notesRouter.delete('/notes/:id', (req, res, next) => {
     }
     console.log(`Deleted notes item '${id}'`);
     res.status(204).end();
-  });
-});
-
-notesRouter.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  res.status(404).json({ message: 'Not Found' });
-});
-
-notesRouter.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.json({
-    message: err.message,
-    error: err
   });
 });
 
