@@ -30,7 +30,7 @@ notesRouter.get('/notes/:id', (req, res, next) => {
   });
 });
 
-notesRouter.put('/notes/:id', (req, res, next) => {
+notesRouter.put('/notes/:id', jsonParser, (req, res, next) => {
   const id = req.params.id;
 
   /***** Never trust users - validate input *****/
@@ -58,7 +58,7 @@ notesRouter.put('/notes/:id', (req, res, next) => {
 });
 
 // Post (insert) an item
-notesRouter.post('/notes', (req, res, next) => {
+notesRouter.post('/notes', jsonParser, (req, res, next) => {
   const { title, content } = req.body;
 
   const newItem = { title, content };
@@ -81,6 +81,16 @@ notesRouter.post('/notes', (req, res, next) => {
   });
 });
 
+notesRouter.delete('/notes/:id', (req, res, next) => {
+  const id = req.params.id;
+  notes.delete(id, err => {
+    if(err) {
+      return next(err);
+    }
+    console.log(`Deleted notes item '${id}'`);
+    res.status(204).end();
+  });
+});
 
 notesRouter.use(function (req, res, next) {
   var err = new Error('Not Found');
