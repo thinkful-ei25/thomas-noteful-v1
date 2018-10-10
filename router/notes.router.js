@@ -8,7 +8,6 @@ const data = require('../db/notes');
 const simDB = require('../db/simDB');
 const notes = simDB.initialize(data);
 
-
 notesRouter.get('/notes/', (req, res, next) => {
   const { searchTerm } = req.query;
 
@@ -42,8 +41,6 @@ notesRouter.put('/notes/:id', jsonParser, (req, res, next) => {
       updateObj[field] = req.body[field];
     }
   });
-  // console.log(req.body);
-  // console.log(updateObj);
 
   notesRouter.update(id, updateObj, (err, item) => {
     if (err) {
@@ -57,7 +54,6 @@ notesRouter.put('/notes/:id', jsonParser, (req, res, next) => {
   });
 });
 
-// Post (insert) an item
 notesRouter.post('/notes', jsonParser, (req, res, next) => {
   const { title, content } = req.body;
 
