@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Scratch HTML</title>
+</head>
+<body>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript" src="scripts/api.js"></script>
+
+  <script>
+  
+const updateObj = {'title': 'test', 'content': 'test'};
+const newObj = {'title': 'creating new object', 'content': 'new object description'};
+
+    // test get all
+    api.search({})
+      .then(response => {
+        console.log(response)
+      });
+  
+    // test get all with search term
+    api.search({searchTerm: 'lady gaga'})
+      .then(response => {
+        console.log(response)
+      });
+
+    api.details(1001)
+      .then(response => {
+        console.log(response)
+      });
+
+    api.update(1001, updateObj)
+      .then(response => {
+        console.log(response)
+      });
+
+    api.create(newObj)
+      .then(response => {
+        console.log(response)
+      });
+
+    api.remove(1003)
+      .then(response => {
+        console.log(`deleted ${response}`)
+      });
+
+    api.search({})
+      .then(response => {
+        console.log(response)
+    });
+      
+    
+  </script>
+</body>
+</html>
